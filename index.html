@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LFSR Stream Cipher</title>
+    <link rel="stylesheet" href="shared/style.css">
+</head>
+
+<body>
+
+    <section>
+        <!-- Configuration section - like the users input-->
+
+        <h2>LFSR Configuration</h2>
+
+        <div class="form-group">
+            <label>
+                Register size (bits)
+            </label>
+            <input type="number" id="registerSize" value="4" min="2">
+
+            <label>
+                Initial Seed
+            </label>
+            <input type="text" id="initialSeed" value="1011" placeholder="1011">
+        </div>
+
+        <div class="form-group">
+            <label>
+                Tap positions
+            </label>
+            <input type="text" id="tapPositions" value="4,3 " placeholder="Example: 4,3">
+
+            <label>
+                Keystream length (bits)
+            </label>
+            <input type="text" id="keystreamLength" value="20" min="1">
+        </div>
+
+        <button id="generateKeystream">
+            Generate Keystream
+        </button>
+
+        <div class="result">
+
+            <h3>Keystream</h3>
+
+            <div id="keystreamOutput">
+                —
+            </div>
+
+        </div>
+
+        <div class="result">
+
+            <h3>LFSR Steps</h3>
+
+            <div class="table-container">
+                <table id="lfsrTable">
+                    <thead>
+                        <tr>
+                            <th>Step</th>
+                            <th>Current Register</th>
+                            <th>Output Bit</th>
+                            <th>Tap Values</th>
+                            <th>Feedback</th>
+                            <th>Next Register</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lfsrTableBody">
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </section>
+
+    <section>
+
+        <!-- Encription Section -->
+
+        <h2>Encryption</h2>
+
+        <div class="form-group">
+            <label for="plaintext">
+                Plaintext
+            </label>
+            <textarea id="plaintext" rows="5" placeholder="Enter your message..."></textarea>
+        </div>
+
+        <button id="encryptButton">
+            Encrypt
+        </button>
+
+
+        <div class="result">
+            <h3>Plaintext Binary</h3>
+            <div id="plaintextBinary">
+                —
+            </div>
+        </div>
+
+
+        <div class="result">
+            <h3>Keystream</h3>
+            <div id="encryptionKeystream">
+                —
+            </div>
+        </div>
+
+
+        <div class="result">
+            <h3>Ciphertext Binary</h3>
+            <div id="ciphertextBinary">
+                —
+            </div>
+        </div>
+
+        <div class="result">
+            <h3>Ciphertext Hex</h3>
+            <div id="ciphertextHex">
+                —
+            </div>
+        </div>
+
+    </section>
+
+    <script src="main.js"></script>
+    <script src="configuration/configuration.js"></script>
+    <script src="encryption/encription.js"></script>
+    <script src="decryption/decryption.js"></script>
+
+</body>
+
+</html>
