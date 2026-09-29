@@ -1,0 +1,41 @@
+body {
+  background-color: rgb(0, 0, 0);
+  color: white;
+  margin: 0;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+section {
+  background-color: darkslategray;
+  padding: 25px;
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 25px;
+}
+
+.form-group {
+  display: grid;
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  color: lightgray;
+}
+
+button {
+  background-color: rgb(0, 67, 252);
+  color: white;
+  font-weight: bold;
+  padding: 10px 15px;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  background-color: darkblue;
+}
