@@ -40,7 +40,7 @@ decryptButton.addEventListener("click", function () {
     }
 
 
-    // get the LSFR configuration 
+    // get the LFSR configuration 
     const initialSeed =
         document.getElementById("initialSeed").value;
 
