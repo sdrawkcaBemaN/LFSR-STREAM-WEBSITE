@@ -167,10 +167,25 @@
 
     </section>
     
+    <section>
+        <h2>Seed-search Demonstration</h2>
+        <div class="form-group">
+            <label for="targetKeystream">Target keystream</label>
+            <input id="targetKeystream" value="11011011" maxlength="256">
+        </div>
+        <button id="searchButton">Search All Seeds</button>
+        <p id="searchSummary" aria-live="polite"></p>
+        <div class="table-container"><table>
+            <thead><tr><th>Candidate Seed</th><th>Generated Keystream</th><th>Matches Target</th></tr></thead>
+            <tbody id="searchTableBody"></tbody>
+        </table></div>
+    </section>
+
     <script src="main.js"></script>
     <script src="configuration/configuration.js"></script>
     <script src="encryption/encription.js"></script>
     <script src="decryption/decryption.js"></script>
+    <script src="attack/attack.js"></script>
 
 </body>
 
