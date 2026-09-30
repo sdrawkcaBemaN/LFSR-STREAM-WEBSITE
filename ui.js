@@ -1,4 +1,3 @@
-// UI only: folder open/close + highlight matching seeds. Does not touch cipher logic.
 const folders = [...document.querySelectorAll(".folder")];
 
 function setOpen(folder, open) {
