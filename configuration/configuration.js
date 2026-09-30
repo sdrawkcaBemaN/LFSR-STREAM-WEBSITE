@@ -1,52 +1,61 @@
-const generateKeystreamButton =
-    document.getElementById("generateKeystream");
+const generateKeystreamButton = document.getElementById("generateKeystream");
 
-const keystreamOutput =
-    document.getElementById("keystreamOutput");
+const keystreamOutput = document.getElementById("keystreamOutput");
 
-const lfsrTableBody =
-    document.getElementById("lfsrTableBody");
-
+const lfsrTableBody = document.getElementById("lfsrTableBody");
 
 generateKeystreamButton.addEventListener("click", function () {
+  const registerSize = Number(document.getElementById("registerSize").value);
 
-    const initialSeed =
-        document.getElementById("initialSeed").value;
+  const initialSeed = document.getElementById("initialSeed").value;
 
-    const tapPosition =
-        document.getElementById("tapPositions").value;
+  const tapPosition = document.getElementById("tapPositions").value;
 
-    const keystreamLength =
-        Number(
-            document.getElementById("keystreamLength").value
-        );
+  const keystreamLength = Number(
+    document.getElementById("keystreamLength").value,
+  );
 
+  if (!Number.isInteger(registerSize) || registerSize < 2) {
+    alert("Register size must be an integer of at least 2.");
+    return;
+  }
+  if (!/^[01]+$/.test(initialSeed)) {
+    alert("Seed must contain only 0 and 1.");
+    return;
+  }
 
-    const taps =
-        tapPosition
-            .split(",")
-            .map(tap => Number(tap.trim()));
+  if (initialSeed.length !== registerSize) {
+    alert(`Seed must contain exactly ${registerSize} bits.`);
+    return;
+  }
 
+  if (/^0+$/.test(initialSeed)) {
+    alert("Seed cannot be all zeros.");
+    return;
+  }
 
-    const result =
-        generateKeystream(
-            initialSeed,
-            taps,
-            keystreamLength
-        );
+  if (!Number.isInteger(keystreamLength) || keystreamLength < 1) {
+    alert("Keystream length must be a positive integer.");
+    return;
+  }
 
-    keystreamOutput.textContent =
-        result.keystream;
+  const taps = tapPosition.split(",").map((tap) => Number(tap.trim()));
 
-    lfsrTableBody.innerHTML = "";
+  if (taps.length === 0) {
+    alert("Please enter at least one tap position.");
+    return;
+  }
 
-    for (const step of result.steps) {
+  const result = generateKeystream(initialSeed, taps, keystreamLength);
 
-        const row =
-            document.createElement("tr");
+  keystreamOutput.textContent = result.keystream;
 
+  lfsrTableBody.innerHTML = "";
 
-        row.innerHTML = `
+  for (const step of result.steps) {
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
             <td>${step.step}</td>
             <td>${step.currentRegister}</td>
             <td>${step.outputBit}</td>
@@ -55,8 +64,6 @@ generateKeystreamButton.addEventListener("click", function () {
             <td>${step.nextRegister}</td>
         `;
 
-
-        lfsrTableBody.appendChild(row);
-    }
-
+    lfsrTableBody.appendChild(row);
+  }
 });
