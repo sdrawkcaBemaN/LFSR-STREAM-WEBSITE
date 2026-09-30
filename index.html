@@ -128,6 +128,45 @@
 
     </section>
 
+    <section>
+
+        <!-- Decryption Section -->
+
+        <h2>Decryption</h2>
+
+        <div class="form-group">
+            <label for="ciphertextHexInput">
+                Ciphertext (Hex)
+            </label>
+            <textarea id="ciphertextHexInput" rows="5" placeholder="Example: 3F A2 1C ..."></textarea>
+        </div>
+
+        <button id="decryptButton">
+            Decrypt
+        </button>
+
+        <div class="result">
+            <h3>Ciphertext Binary</h3>
+            <div id="decryptionCiphertextBinary">—</div>
+        </div>
+
+        <div class="result">
+            <h3>Keystream</h3>
+            <div id="decryptionKeystream">—</div>
+        </div>
+
+        <div class="result">
+            <h3>Plaintext Binary</h3>
+            <div id="decryptedBinary">—</div>
+        </div>
+
+        <div class="result">
+            <h3>Plaintext</h3>
+            <div id="decryptedPlaintext">—</div>
+        </div>
+
+    </section>
+    
     <script src="main.js"></script>
     <script src="configuration/configuration.js"></script>
     <script src="encryption/encription.js"></script>
