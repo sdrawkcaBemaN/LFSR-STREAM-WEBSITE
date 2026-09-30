@@ -1,192 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LFSR Stream Cipher</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="shared/style.css">
 </head>
-
 <body>
+<div class="wrap">
 
-    <section>
-        <!-- Configuration section - like the users input-->
+    <header>
+        <div class="crumb">Cipher Lab / Recovered Entries / Fragments 01–04</div>
+        <h1>LFSR Stream Cipher</h1>
+        <p class="lede">Generate a keystream, encrypt, decrypt, and break it. Open a folder to begin.</p>
+    </header>
 
-        <h2>LFSR Configuration</h2>
+    <main class="cabinet">
 
-        <div class="form-group">
-            <label>
-                Register size (bits)
-            </label>
-            <input type="number" id="registerSize" value="4" min="2">
+        <!-- 01 CONFIGURATION -->
+        <section class="folder f1">
+            <div class="tabrow"><button class="tab" type="button" aria-expanded="false">Configuration</button></div>
+            <div class="band"><div class="paper">
+                <span class="stamp">File #01</span>
+                <h2>LFSR Configuration</h2>
 
-            <label>
-                Initial Seed
-            </label>
-            <input type="text" id="initialSeed" value="1011" placeholder="1011">
-        </div>
+                <div class="row">
+                    <div><label for="registerSize">Register size (bits)</label>
+                        <input type="number" id="registerSize" value="4" min="2"></div>
+                    <div><label for="initialSeed">Initial seed</label>
+                        <input type="text" id="initialSeed" value="1011" placeholder="1011"></div>
+                </div>
+                <div class="row">
+                    <div><label for="tapPositions">Tap positions</label>
+                        <input type="text" id="tapPositions" value="4,3" placeholder="Example: 4,3"></div>
+                    <div><label for="keystreamLength">Keystream length (bits)</label>
+                        <input type="number" id="keystreamLength" value="20" min="1"></div>
+                </div>
 
-        <div class="form-group">
-            <label>
-                Tap positions
-            </label>
-            <input type="text" id="tapPositions" value="4,3 " placeholder="Example: 4,3">
+                <button id="generateKeystream">Generate Keystream</button>
 
-            <label>
-                Keystream length (bits)
-            </label>
-            <input type="text" id="keystreamLength" value="20" min="1">
-        </div>
+                <div class="result">
+                    <h3>Keystream</h3>
+                    <div id="keystreamOutput">—</div>
+                </div>
+                <div class="result">
+                    <h3>LFSR Steps</h3>
+                    <div class="table-container">
+                        <table id="lfsrTable">
+                            <thead><tr>
+                                <th>Step</th><th>Current Register</th><th>Output Bit</th>
+                                <th>Tap Values</th><th>Feedback</th><th>Next Register</th>
+                            </tr></thead>
+                            <tbody id="lfsrTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div></div>
+        </section>
 
-        <button id="generateKeystream">
-            Generate Keystream
-        </button>
+        <!-- 02 ENCRYPTION -->
+        <section class="folder f2">
+            <div class="tabrow"><button class="tab" type="button" aria-expanded="false">Encryption</button></div>
+            <div class="band"><div class="paper">
+                <span class="stamp">File #02</span>
+                <h2>Encryption</h2>
+                <p class="note">Uses the seed and taps from Configuration.</p>
 
-        <div class="result">
+                <label for="plaintext">Plaintext</label>
+                <textarea id="plaintext" rows="4" placeholder="Enter your message..."></textarea>
 
-            <h3>Keystream</h3>
+                <button id="encryptButton">Encrypt</button>
 
-            <div id="keystreamOutput">
-                —
-            </div>
+                <div class="result"><h3>Plaintext Binary</h3><div id="plaintextBinary">—</div></div>
+                <div class="result"><h3>Keystream</h3><div id="encryptionKeystream">—</div></div>
+                <div class="result"><h3>Ciphertext Binary</h3><div id="ciphertextBinary">—</div></div>
+                <div class="result"><h3>Ciphertext Hex</h3><div id="ciphertextHex">—</div></div>
+            </div></div>
+        </section>
 
-        </div>
+        <!-- 03 DECRYPTION -->
+        <section class="folder f3">
+            <div class="tabrow"><button class="tab" type="button" aria-expanded="false">Decryption</button></div>
+            <div class="band"><div class="paper">
+                <span class="stamp">File #03</span>
+                <h2>Decryption</h2>
+                <p class="note">Uses the seed and taps from Configuration.</p>
 
-        <div class="result">
+                <label for="ciphertextHexInput">Ciphertext (hex)</label>
+                <textarea id="ciphertextHexInput" rows="4" placeholder="Example: 3F A2 1C ..."></textarea>
 
-            <h3>LFSR Steps</h3>
+                <button id="decryptButton">Decrypt</button>
 
-            <div class="table-container">
-                <table id="lfsrTable">
-                    <thead>
-                        <tr>
-                            <th>Step</th>
-                            <th>Current Register</th>
-                            <th>Output Bit</th>
-                            <th>Tap Values</th>
-                            <th>Feedback</th>
-                            <th>Next Register</th>
-                        </tr>
-                    </thead>
-                    <tbody id="lfsrTableBody">
-                    </tbody>
-                </table>
-            </div>
+                <div class="result"><h3>Ciphertext Binary</h3><div id="decryptionCiphertextBinary">—</div></div>
+                <div class="result"><h3>Keystream</h3><div id="decryptionKeystream">—</div></div>
+                <div class="result"><h3>Plaintext Binary</h3><div id="decryptedBinary">—</div></div>
+                <div class="result"><h3>Plaintext</h3><div id="decryptedPlaintext">—</div></div>
+            </div></div>
+        </section>
 
-        </div>
+        <!-- 04 SEED SEARCH -->
+        <section class="folder f4">
+            <div class="tabrow"><button class="tab" type="button" aria-expanded="false">Seed Search</button></div>
+            <div class="band"><div class="paper">
+                <span class="stamp">File #04</span>
+                <h2>Seed-search Demonstration</h2>
+                <p class="note">Brute-forces every seed using the register size and taps from Configuration (2–8 bits).</p>
 
-    </section>
+                <label for="targetKeystream">Target keystream</label>
+                <input id="targetKeystream" value="11011011" maxlength="256">
 
-    <section>
+                <button id="searchButton">Search All Seeds</button>
+                <p id="searchSummary" aria-live="polite"></p>
 
-        <!-- Encription Section -->
+                <div class="table-container"><table>
+                    <thead><tr><th>Candidate Seed</th><th>Generated Keystream</th><th>Matches Target</th></tr></thead>
+                    <tbody id="searchTableBody"></tbody>
+                </table></div>
+            </div></div>
+        </section>
 
-        <h2>Encryption</h2>
-
-        <div class="form-group">
-            <label for="plaintext">
-                Plaintext
-            </label>
-            <textarea id="plaintext" rows="5" placeholder="Enter your message..."></textarea>
-        </div>
-
-        <button id="encryptButton">
-            Encrypt
-        </button>
-
-
-        <div class="result">
-            <h3>Plaintext Binary</h3>
-            <div id="plaintextBinary">
-                —
-            </div>
-        </div>
-
-
-        <div class="result">
-            <h3>Keystream</h3>
-            <div id="encryptionKeystream">
-                —
-            </div>
-        </div>
-
-
-        <div class="result">
-            <h3>Ciphertext Binary</h3>
-            <div id="ciphertextBinary">
-                —
-            </div>
-        </div>
-
-        <div class="result">
-            <h3>Ciphertext Hex</h3>
-            <div id="ciphertextHex">
-                —
-            </div>
-        </div>
-
-    </section>
-
-    <section>
-
-        <!-- Decryption Section -->
-
-        <h2>Decryption</h2>
-
-        <div class="form-group">
-            <label for="ciphertextHexInput">
-                Ciphertext (Hex)
-            </label>
-            <textarea id="ciphertextHexInput" rows="5" placeholder="Example: 3F A2 1C ..."></textarea>
-        </div>
-
-        <button id="decryptButton">
-            Decrypt
-        </button>
-
-        <div class="result">
-            <h3>Ciphertext Binary</h3>
-            <div id="decryptionCiphertextBinary">—</div>
-        </div>
-
-        <div class="result">
-            <h3>Keystream</h3>
-            <div id="decryptionKeystream">—</div>
-        </div>
-
-        <div class="result">
-            <h3>Plaintext Binary</h3>
-            <div id="decryptedBinary">—</div>
-        </div>
-
-        <div class="result">
-            <h3>Plaintext</h3>
-            <div id="decryptedPlaintext">—</div>
-        </div>
-
-    </section>
-    
-    <section>
-        <h2>Seed-search Demonstration</h2>
-        <div class="form-group">
-            <label for="targetKeystream">Target keystream</label>
-            <input id="targetKeystream" value="11011011" maxlength="256">
-        </div>
-        <button id="searchButton">Search All Seeds</button>
-        <p id="searchSummary" aria-live="polite"></p>
-        <div class="table-container"><table>
-            <thead><tr><th>Candidate Seed</th><th>Generated Keystream</th><th>Matches Target</th></tr></thead>
-            <tbody id="searchTableBody"></tbody>
-        </table></div>
-    </section>
+    </main>
+</div>
 
     <script src="main.js"></script>
     <script src="configuration/configuration.js"></script>
     <script src="encryption/encription.js"></script>
     <script src="decryption/decryption.js"></script>
     <script src="attack/attack.js"></script>
-
+    <script src="ui/ui.js"></script>
 </body>
-
 </html>
